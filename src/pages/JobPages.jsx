@@ -1,12 +1,21 @@
 import React from "react";
 // import { useState, useEffect } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 
-const JobPages = () => {
-   const job = useLoaderData();
+const JobPages = (deleteJob) => {
+  const navigate = useNavigate();
+  const job = useLoaderData();
+
+  const onDeleteClick = (jobId) => {
+    const confirm = window.confirm("Are sure to delete htis listing?");
+
+    if (!confirm) return;
+    deleteJob(jobId);
+    navigate("/jobs");
+  };
   // const [job, setJob] = useState(null);
   // const [loading, setLoading] = useState(true);
   // useEffect(() => {
@@ -103,7 +112,10 @@ const JobPages = () => {
                 >
                   Edit Job
                 </Link>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                <button
+                  onClick={() => onDeleteClick(job.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
                   Delete Job
                 </button>
               </div>
